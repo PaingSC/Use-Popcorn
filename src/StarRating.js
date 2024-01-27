@@ -16,6 +16,7 @@ export default function StarRating({
   color = "#fcc419",
   size = 30,
   className = "",
+  messages = [],
 }) {
   const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
@@ -45,14 +46,17 @@ export default function StarRating({
             />
           ))}
         </div>
-        <div style={textStyle}>{tempRating || rating || ""}</div>
+        <div style={textStyle}>
+          {messages.length === maxRating
+            ? messages[tempRating ? tempRating - 1 : rating - 1]
+            : tempRating || rating || ""}
+        </div>
       </div>
     </>
   );
 }
 
 // Stars
-// FULL STAR
 function Star({ onRate, full, onHoverEnter, onHoverLeave, color, size }) {
   const starStyle = {
     display: "block",
@@ -94,10 +98,4 @@ function Star({ onRate, full, onHoverEnter, onHoverLeave, color, size }) {
       )}
     </span>
   );
-}
-
-// EMPTY STAR
-
-{
-  /* */
 }
