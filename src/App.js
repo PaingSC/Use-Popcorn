@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { NavBar, Search, NumResult } from "./NavBar";
 import { Main } from "./Main.js";
-import { ListBox } from "./ListBox";
-import { Movie } from "./MovieList.js";
 import { MovieList } from "./MovieList.js";
 import { WatchedMovieList } from "./WatchedMovieList.js";
 import { WatchedSummary } from "./WatchedSummary.js";
