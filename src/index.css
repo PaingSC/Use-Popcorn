@@ -349,12 +349,14 @@ FONT SIZE SYSTEM (px)
 
 /* Hiding Scroll Bar */
 /* Hide scrollbar for Chrome, Safari and Opera */
-.list::-webkit-scrollbar {
+.list::-webkit-scrollbar,
+.box::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.list {
+.list,
+.box {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
