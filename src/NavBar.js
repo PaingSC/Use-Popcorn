@@ -18,8 +18,8 @@ export function Logo() {
   );
 }
 
-export function Search() {
-  const [query, setQuery] = useState("");
+export function Search({ query, setQuery }) {
+  // const [query, setQuery] = useState("");
 
   return (
     <input
