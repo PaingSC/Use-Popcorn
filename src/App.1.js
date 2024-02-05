@@ -5,11 +5,7 @@ import { MovieList } from "./MovieList.js";
 import { WatchedMovieList } from "./WatchedMovieList.js";
 import { WatchedSummary } from "./WatchedSummary.js";
 import { Box } from "./Box.js";
-
-// const KEY = "f84fc31d";
-const KEY = "47916d10";
-export const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+import { KEY, Loader, ErrorMessage } from "./App.js";
 
 export default function App() {
   // const [movies, setMovies] = useState(tempMovieData);
@@ -19,16 +15,8 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
-
-  const handleSelectMovie = function (id) {
-    setSelectedId((selectedId) => (id === selectedId ? null : id));
-  };
-
-  const handleCloseMovie = function () {
-    setSelectedId(null);
-  };
-
+  const tempQuery = "dangal";
+  // const tempQuery = "dalksdfjals";
   // useEffect(function () {
   //   fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
   //     .then((res) => res.json())
@@ -39,21 +27,20 @@ export default function App() {
   useEffect(function () {
     console.log("1: After initial render");
   }, []);
-
+ 
   useEffect(function () {
     console.log("2: After every render");
   });
-
+ 
   useEffect(
     function () {
       console.log("3: Initial render and when update 'query' Prop!");
     },
     [query]
   );
-
+ 
   console.log("4: During every render");
 */
-
   useEffect(
     function () {
       async function fetchMovies() {
@@ -99,50 +86,16 @@ export default function App() {
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
-          {!isLoading && !error && (
-            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
-          )}
+          {!isLoading && !error && <MovieList movies={movies} />}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <>
-            {selectedId ? (
-              <MovieDetails
-                selectedId={selectedId}
-                onCloseMovie={handleCloseMovie}
-              />
-            ) : (
-              <>
-                <WatchedSummary watched={watched} />
-                <WatchedMovieList watched={watched} />
-              </>
-            )}
+            <WatchedSummary watched={watched} />
+            <WatchedMovieList watched={watched} />
           </>
         </Box>
       </Main>
     </>
-  );
-}
-
-function MovieDetails({ selectedId, onCloseMovie }) {
-  return (
-    <div className="details">
-      <button className="btn-back" onClick={onCloseMovie}>
-        &larr;
-      </button>
-      {selectedId}
-    </div>
-  );
-}
-
-function Loader() {
-  return <p className="loader">Loading...</p>;
-}
-
-function ErrorMessage({ message }) {
-  return (
-    <p className="error">
-      <span>⛔</span> {message}
-    </p>
   );
 }
