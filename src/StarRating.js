@@ -47,7 +47,6 @@ export default function StarRating({
 
   return (
     <>
-      <h1>Hello</h1>
       <div style={containerStyle} className={className}>
         <div style={starContainerStyle}>
           {Array.from({ length: maxRating }, (_, i) => (
