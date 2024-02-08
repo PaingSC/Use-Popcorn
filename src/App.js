@@ -13,8 +13,6 @@ export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
-  // const [movies, setMovies] = useState(tempMovieData);
-  // const [watched, setWatched] = useState(tempWatchedData);
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,31 +27,6 @@ export default function App() {
   const handleCloseMovie = function () {
     setSelectedId(null);
   };
-
-  // useEffect(function () {
-  //   fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-  //     .then((res) => res.json())
-  //     .then((data) => setMovies(data.Search));
-  // }, []);
-  /*
-// useEffest with dependancies
-  useEffect(function () {
-    console.log("1: After initial render");
-  }, []);
-
-  useEffect(function () {
-    console.log("2: After every render");
-  });
-
-  useEffect(
-    function () {
-      console.log("3: Initial render and when update 'query' Prop!");
-    },
-    [query]
-  );
-
-  console.log("4: During every render");
-*/
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
@@ -85,8 +58,8 @@ export default function App() {
           setMovies(data.Search);
           setError(""); // reseting error
         } catch (err) {
-          console.error(err.message);
           if (err.name !== "AbortError") {
+            console.log(err.message);
             setError(err.message);
           }
         } finally {
@@ -98,6 +71,7 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -192,7 +166,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       function comCallback(e) {
         if (e.code === "Escape") {
           onCloseMovie();
-          console.log("CLOSING");
         }
       }
       document.addEventListener("keydown", comCallback);
