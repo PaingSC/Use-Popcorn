@@ -143,9 +143,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [isLoading, setIsLoading] = useState(false);
   // const isWatched = false;
   const watchedImdbID = watched.map((movie) => movie.imdbID);
-  console.log(`watchedImdbID: ${watchedImdbID}`);
   const isWatched = watchedImdbID.includes(selectedId);
-  console.log(`isWatched: ${isWatched}`);
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
@@ -162,6 +160,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Director: director,
     Genre: genre,
   } = movie;
+
+  console.log(title);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -186,13 +186,20 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
           `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
         );
         const data = await res.json();
-        console.log(data);
         setMovie(data);
         setIsLoading(false);
       }
       getMovieDetails();
     },
     [selectedId]
+  );
+
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title} `;
+    },
+    [title]
   );
 
   return (
