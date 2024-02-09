@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavBar, Search, NumResult } from "./NavBar";
 import { Main } from "./Main.js";
 import { MovieList } from "./MovieList.js";
@@ -144,6 +144,13 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+  }, [userRating]);
+
   // const isWatched = false;
   const watchedImdbID = watched.map((movie) => movie.imdbID);
   const isWatched = watchedImdbID.includes(selectedId);
@@ -191,6 +198,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
+      countRatingDecisions: countRef.current,
     };
 
     onAddWatched(newWatchedMovie);
