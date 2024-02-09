@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function NavBar({ children }) {
   return (
@@ -20,6 +20,11 @@ export function Logo() {
 
 export function Search({ query, setQuery }) {
   // const [query, setQuery] = useState("");
+  useEffect(() => {
+    const el = document.querySelector(".search");
+    console.log(el);
+    el.focus();
+  }, []);
 
   return (
     <input
