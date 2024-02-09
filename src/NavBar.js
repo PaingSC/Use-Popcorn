@@ -1,5 +1,6 @@
 import { type } from "@testing-library/user-event/dist/type";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useKey } from "./useKey";
 
 export function NavBar({ children }) {
   return (
@@ -29,26 +30,32 @@ export function Search({ query, setQuery }) {
 
   const inputEl = useRef(null);
 
-  useEffect(
-    function () {
-      inputEl.current.focus(); // For the initial render
+  // listening for "Enter" "keydown" event
+  useKey("Enter", () => {
+    if (document.activeElement === inputEl.current) return;
+    inputEl.current.focus();
+    setQuery(""); // For the initial render
+  });
 
-      // For the enter key
-      const useCallback = (e) => {
-        if (document.activeElement === inputEl.current) return;
-        if (e.code === "Enter") {
-          inputEl.current.focus();
-          setQuery("");
-        }
-        console.log(e);
-      };
-      document.addEventListener("keydown", useCallback);
+  // useEffect(
+  //   function () {
+  //     inputEl.current.focus(); // For the initial render
 
-      return document.addEventListener("keydown", useCallback);
-      // inputEl.current.focus();
-    },
-    [setQuery]
-  );
+  //     // For the enter key
+  //     const useCallback = (e) => {
+  //       if (e.code === "Enter") {
+  //         if (document.activeElement === inputEl.current) return;
+  //         inputEl.current.focus();
+  //         setQuery("");
+  //       }
+  //     };
+  //     document.addEventListener("keydown", useCallback);
+
+  //     return document.addEventListener("keydown", useCallback);
+  //     // inputEl.current.focus();
+  //   },
+  //   [setQuery]
+  // );
 
   return (
     <input

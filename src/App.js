@@ -8,6 +8,7 @@ import { Box } from "./Box.js";
 import StarRating from "./StarRating.js";
 import { useMovies } from "./useMovies.js";
 import { useLocalStorageState } from "./useLocalStorageState.js";
+import { useKey } from "./useKey.js";
 
 // const KEY = "f84fc31d";
 const KEY = "47916d10";
@@ -172,21 +173,23 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     // alert(avgRating);
   }
 
-  useEffect(
-    function () {
-      function comCallback(e) {
-        if (e.code === "Escape") {
-          onCloseMovie();
-        }
-      }
-      document.addEventListener("keydown", comCallback);
+  // EventListener for "Escape" key
+  useKey("Escape", onCloseMovie);
+  // useEffect(
+  //   function () {
+  //     function comCallback(e) {
+  //       if (e.code === "Escape") {
+  //         onCloseMovie();
+  //       }
+  //     }
+  //     document.addEventListener("keydown", comCallback);
 
-      return function () {
-        document.removeEventListener("keydown", comCallback);
-      };
-    },
-    [onCloseMovie]
-  );
+  //     return function () {
+  //       document.removeEventListener("keydown", comCallback);
+  //     };
+  //   },
+  //   [onCloseMovie]
+  // );
 
   useEffect(
     function () {
