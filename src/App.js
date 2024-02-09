@@ -7,6 +7,7 @@ import { WatchedSummary } from "./WatchedSummary.js";
 import { Box } from "./Box.js";
 import StarRating from "./StarRating.js";
 import { useMovies } from "./useMovies.js";
+import { useLocalStorageState } from "./useLocalStorageState.js";
 
 // const KEY = "f84fc31d";
 const KEY = "47916d10";
@@ -19,15 +20,18 @@ export default function App() {
 
   const { movies, isLoading, error } = useMovies(query, handleCloseMovie);
 
+  // Accessing Local Storage
+  const [watched, setWatched] = useLocalStorageState([], "watched");
+
   // const [watched, setWatched] = useState([]);
-  const [watched, setWatched] = useState(() => {
-    const storedValue = localStorage.getItem("watched");
-    console.log(storedValue);
-    const storeList = JSON.parse(storedValue);
-    console.log(storeList);
-    // return storedValue
-    return storeList;
-  });
+  // const [watched, setWatched] = useState(() => {
+  //   const storedValue = localStorage.getItem("watched");
+  //   console.log(storedValue);
+  //   const storeList = JSON.parse(storedValue);
+  //   console.log(storeList);
+  //   // return storedValue
+  //   return storeList;
+  // });
 
   const handleSelectMovie = function (id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -50,12 +54,13 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-    },
-    [watched]
-  );
+  // useEffect for local storage
+  // useEffect(
+  //   function () {
+  //     localStorage.setItem("watched", JSON.stringify(watched));
+  //   },
+  //   [watched]
+  // );
 
   return (
     <>

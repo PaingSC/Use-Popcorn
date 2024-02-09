@@ -9,6 +9,7 @@ const KEY = "47916d10";
 // 4. add hooks for step 3
 // 5. add the required arguments
 // 6. retrun the data as [] or {}
+// 7. Now we can call(use) our custom hook wit it's requirements
 
 export function useMovies(
   query,
