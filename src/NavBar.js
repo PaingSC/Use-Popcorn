@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { type } from "@testing-library/user-event/dist/type";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function NavBar({ children }) {
   return (
@@ -20,11 +21,34 @@ export function Logo() {
 
 export function Search({ query, setQuery }) {
   // const [query, setQuery] = useState("");
-  useEffect(() => {
-    const el = document.querySelector(".search");
-    console.log(el);
-    el.focus();
-  }, []);
+  // useEffect(() => {
+  //   const el = document.querySelector(".search");
+  //   console.log(el);
+  //   el.focus();
+  // }, []);
+
+  const inputEl = useRef(null);
+
+  useEffect(
+    function () {
+      inputEl.current.focus(); // For the initial render
+
+      // For the enter key
+      const useCallback = (e) => {
+        if (document.activeElement === inputEl.current) return;
+        if (e.code === "Enter") {
+          inputEl.current.focus();
+          setQuery("");
+        }
+        console.log(e);
+      };
+      document.addEventListener("keydown", useCallback);
+
+      return document.addEventListener("keydown", useCallback);
+      // inputEl.current.focus();
+    },
+    [setQuery]
+  );
 
   return (
     <input
@@ -33,6 +57,7 @@ export function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
     />
   );
 }
