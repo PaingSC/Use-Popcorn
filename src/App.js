@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { NavBar, Search, NumResult } from "./NavBar";
+// import { NavBar, Search, NumResult } from "./NavBar";
+import { NavBar, NumResult } from "./NavBar";
 import { Main } from "./Main.js";
 import { MovieList } from "./MovieList.js";
 import { WatchedMovieList } from "./WatchedMovieList.js";
 import { WatchedSummary } from "./WatchedSummary.js";
 import { Box } from "./Box.js";
 import StarRating from "./StarRating.js";
-import { useMovies } from "./useMovies.js";
+// import { useMovies } from "./useMovies.js";
 import { useLocalStorageState } from "./useLocalStorageState.js";
 import { useKey } from "./useKey.js";
+import { Test, Search, useMovies } from "./Test";
 
 // const KEY = "f84fc31d";
 const KEY = "47916d10";
@@ -20,6 +22,7 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
 
   const { movies, isLoading, error } = useMovies(query, handleCloseMovie);
+  // const { movies } = useMovies(query, handleCloseMovie);
 
   // Accessing Local Storage
   const [watched, setWatched] = useLocalStorageState([], "watched");
@@ -65,10 +68,11 @@ export default function App() {
 
   return (
     <>
-      <NavBar>
+      <Test>
         <Search query={query} setQuery={setQuery} />
         <NumResult movies={movies} />
-      </NavBar>
+      </Test>
+
       <Main>
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
@@ -78,6 +82,7 @@ export default function App() {
           )}
           {error && <ErrorMessage message={error} />}
         </Box>
+
         <Box>
           <>
             {selectedId ? (

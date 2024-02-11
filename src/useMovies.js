@@ -11,12 +11,8 @@ const KEY = "47916d10";
 // 6. retrun the data as [] or {}
 // 7. Now we can call(use) our custom hook wit it's requirements
 
-export function useMovies(
-  query,
-  {
-    /* callbackFn */
-  }
-) {
+// export function useMovies(query, { callbackFn }) {
+export function useMovies(query, {}) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
