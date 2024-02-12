@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+// import { Movie } from "./MovieList";
 
 export function Test({ children }) {
   return (
@@ -55,24 +56,134 @@ const KEY = "47916d10";
 
 export function useMovies(query, {}) {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchMovies() {
+      setIsLoading(true);
+      setError("");
       try {
-        console.log("Fetching movies...");
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
         );
-        console.log(res);
+        if (!res.ok)
+          throw new Error(`Something went wrong with fetching movies!`);
+        // const data = await res.json();
+        const data = await res.json();
+        if (data.Response === "False") throw new Error(data.Error);
+        setMovies(data.Search);
+        setError("");
       } catch (err) {
+        console.error(err.message);
+        setError(err.message);
       } finally {
-        console.log("Finally");
+        setIsLoading(false);
       }
     }
 
     // Calling fetching fn
     fetchMovies();
-  }, []);
+  }, [query]);
 
-  return { movies };
+  return { movies, error, isLoading };
+}
+
+export function MovieList({ movies, onSelectMovie }) {
+  return (
+    <ul className="list list-movies">
+      {movies?.map((movie) => (
+        <Movie movie={movie} onSelectMovie={onSelectMovie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
+}
+
+export function Movie({ movie, onSelectMovie }) {
+  return (
+    <li key={movie.imdbID} onClick={() => onSelectMovie(movie.imdbID)}>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+        </p>
+      </div>
+    </li>
+  );
+}
+
+export function MovieDetails({
+  selectedId,
+  onCloseMovie,
+  onAddWatched,
+  watched,
+}) {
+  const [movie, setMovie] = useState({});
+  useEffect(() => {
+    async function getMovieDetails() {
+      console.log("Fetching movie details");
+      try {
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+        );
+        const data = await res.json();
+        setMovie(data);
+      } catch (err) {
+      } finally {
+      }
+    }
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  console.log(`movie: ${movie}`);
+  console.log(movie);
+
+  // const {
+  //   Actors,
+  //   Awards,
+  //   BoxOffice,
+  //   Country,
+  //   DVD,
+  //   Director,
+  //   Genre,
+  //   Language,
+  //   Metascore,
+  //   Plot,
+  //   Poster,
+  //   Production,
+  //   Rated,
+  //   Ratings,
+  //   Released,
+  //   Response,
+  //   Runtime,
+  //   Title,
+  //   Type,
+  //   Website,
+  //   Writer,
+  //   Year,
+  //   imdbID,
+  //   imdbRating,
+  //   imdbVotes,
+  // } = movie;
+
+  const {
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+    Plot: plot,
+    Poster: poster,
+    Released: released,
+    Runtime: runtime,
+    Title: title,
+    Year: year,
+    imdbRating,
+  } = movie;
+
+  return (
+    <div className="details">
+      <img src={poster} />
+    </div>
+  );
 }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 // import { NavBar, Search, NumResult } from "./NavBar";
 import { NavBar, NumResult } from "./NavBar";
 import { Main } from "./Main.js";
-import { MovieList } from "./MovieList.js";
+// import { MovieList } from "./MovieList.js";
 import { WatchedMovieList } from "./WatchedMovieList.js";
 import { WatchedSummary } from "./WatchedSummary.js";
 import { Box } from "./Box.js";
@@ -10,7 +10,7 @@ import StarRating from "./StarRating.js";
 // import { useMovies } from "./useMovies.js";
 import { useLocalStorageState } from "./useLocalStorageState.js";
 import { useKey } from "./useKey.js";
-import { Test, Search, useMovies } from "./Test";
+import { Test, Search, useMovies, MovieList, MovieDetails } from "./Test";
 
 // const KEY = "f84fc31d";
 const KEY = "47916d10";
@@ -78,6 +78,7 @@ export default function App() {
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
           {!isLoading && !error && (
+            // <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
           )}
           {error && <ErrorMessage message={error} />}
@@ -108,7 +109,12 @@ export default function App() {
   );
 }
 
-function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
+function MovieDetails_Tepm({
+  selectedId,
+  onCloseMovie,
+  onAddWatched,
+  watched,
+}) {
   const [userRating, setUserRating] = useState("");
 
   const [movie, setMovie] = useState({});
@@ -128,16 +134,16 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   )?.userRating;
 
   const {
-    Title: title,
-    Year: year,
-    Poster: poster,
-    Runtime: runtime,
-    imdbRating,
-    Plot: plot,
-    Released: released,
     Actors: actors,
     Director: director,
     Genre: genre,
+    Plot: plot,
+    Poster: poster,
+    Released: released,
+    Runtime: runtime,
+    Title: title,
+    Year: year,
+    imdbRating,
   } = movie;
 
   // /* eslint-disable */
@@ -154,7 +160,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   // );
 
   const isTop = imdbRating > 8;
-  console.log(isTop);
+  // console.log(isTop);
 
   // const [avgRating, setAvgRating] = useState(0);
 
@@ -235,7 +241,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
             <button className="btn-back" onClick={onCloseMovie}>
               &larr;
             </button>
-            <img src={poster} alt={`Poster of ${movie} movie`} />
+            <img src={poster} alt={`Poster of '${title}' movie`} />
             <div className="details-overview">
               <h2>{title}</h2>
               <p>
